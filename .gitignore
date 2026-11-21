@@ -26,4 +26,7 @@ dist-ssr/
 *.iml
 .DS_Store
 Thumbs.db
-EOF
+
+# Generated project reports and demo assets
+report/
+report-assets/

@@ -15,7 +15,7 @@ import {
   XCircle,
 } from 'lucide-react'
 
-const API_BASE = 'http://localhost:8080/api'
+const API_BASE = import.meta.env.VITE_API_URL || 'http://localhost:8080/api'
 const presets = [
   'git status',
   'sudo apt install nginx',
