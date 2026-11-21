@@ -14,6 +14,7 @@ import java.util.List;
 import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
@@ -129,6 +130,16 @@ class RuleEngineTest {
             assertTrue(response.getMatchedRules().contains("COMMAND_CHAINING"), command);
             assertTrue(response.getSubCommands().size() >= 2, command);
         }
+    }
+
+    @Test
+    void separatorsInsideQuotesAreNotChaining() {
+        CheckResponse response = ruleEngine.evaluate(
+                "echo \"git status; git branch\"");
+
+        assertEquals("ALLOW", response.getDecision());
+        assertFalse(response.getMatchedRules().contains("COMMAND_CHAINING"));
+        assertEquals(1, response.getSubCommands().size());
     }
 
     private static Stream<Arguments> commandCases() {

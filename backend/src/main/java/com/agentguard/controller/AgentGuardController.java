@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 /**
@@ -99,14 +100,16 @@ public class AgentGuardController {
 
     @PostMapping("/logs/{id}/approve")
     public ResponseEntity<CommandLog> approveCommand(@PathVariable Long id) {
-
-        return commandLogRepository.findById(id)
-                .map(log -> {
-                    log.setStatus("APPROVED");
-                    commandLogRepository.save(log);
-                    return ResponseEntity.ok(log);
-                })
-                .orElse(ResponseEntity.notFound().build());
+        Optional<CommandLog> existing = commandLogRepository.findById(id);
+        if (existing.isEmpty()) {
+            return ResponseEntity.notFound().build();
+        }
+        CommandLog log = existing.get();
+        if (!"PENDING".equals(log.getStatus())) {
+            return ResponseEntity.badRequest().build();
+        }
+        log.setStatus("APPROVED");
+        return ResponseEntity.ok(commandLogRepository.save(log));
     }
 
     // ─────────────────────────────────────────────────────────────
@@ -115,14 +118,16 @@ public class AgentGuardController {
 
     @PostMapping("/logs/{id}/reject")
     public ResponseEntity<CommandLog> rejectCommand(@PathVariable Long id) {
-
-        return commandLogRepository.findById(id)
-                .map(log -> {
-                    log.setStatus("REJECTED");
-                    commandLogRepository.save(log);
-                    return ResponseEntity.ok(log);
-                })
-                .orElse(ResponseEntity.notFound().build());
+        Optional<CommandLog> existing = commandLogRepository.findById(id);
+        if (existing.isEmpty()) {
+            return ResponseEntity.notFound().build();
+        }
+        CommandLog log = existing.get();
+        if (!"PENDING".equals(log.getStatus())) {
+            return ResponseEntity.badRequest().build();
+        }
+        log.setStatus("REJECTED");
+        return ResponseEntity.ok(commandLogRepository.save(log));
     }
 
     // ─────────────────────────────────────────────────────────────

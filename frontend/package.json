@@ -1,5 +1,5 @@
 {
-  "name": "frontend",
+  "name": "agentguard-frontend",
   "private": true,
   "version": "0.0.0",
   "type": "module",
@@ -20,6 +20,7 @@
     "@vitejs/plugin-react": "^6.1.2",
     "lucide-react": "^1.77.0",
     "oxlint": "^1.90.0",
+    "playwright": "^1.65.1",
     "tailwindcss": "^4.3.5",
     "vite": "^8.3.6"
   }

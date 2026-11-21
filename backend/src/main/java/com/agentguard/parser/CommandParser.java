@@ -164,7 +164,7 @@ public class CommandParser {
             char c = command.charAt(i);
 
             // ── toggle quote state (skip escaped quotes like \") ──
-            boolean isEscaped = (i > 0 && command.charAt(i - 1) == '\\');
+            boolean isEscaped = isEscaped(command, i);
 
             if (c == '\'' && !inDouble && !isEscaped) {
                 inSingle = !inSingle;
@@ -173,7 +173,7 @@ public class CommandParser {
                 continue;
             }
             if (c == '"' && !inSingle && !isEscaped) {
-                inDouble = !inSingle;
+                inDouble = !inDouble;
                 current.append(c);
                 i++;
                 continue;
@@ -224,6 +224,14 @@ public class CommandParser {
             parts.add(part);
         }
         buf.setLength(0);
+    }
+
+    private boolean isEscaped(String text, int index) {
+        int slashCount = 0;
+        for (int i = index - 1; i >= 0 && text.charAt(i) == '\\'; i--) {
+            slashCount++;
+        }
+        return slashCount % 2 == 1;
     }
 
     // ═══════════════════════════════════════════════════════════
