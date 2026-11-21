@@ -1,0 +1,29 @@
+# Maven / Spring Boot build outputs
+target/
+*.jar
+*.war
+*.class
+
+# Node / React / Vite build outputs
+node_modules/
+dist/
+dist-ssr/
+*.local
+
+# Environment variables & secrets (important if you add API keys later)
+.env
+.env.*
+
+# Logs & local database files
+*.log
+*.tmp
+*.db
+
+# IDE & OS files
+.vscode/*
+!.vscode/extensions.json
+.idea/
+*.iml
+.DS_Store
+Thumbs.db
+EOF
